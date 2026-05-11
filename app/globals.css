@@ -1,0 +1,126 @@
+@import "tailwindcss";
+
+/*
+  Fruitland Farms — Design System
+  Derived from the shopfront: pale corrugated siding (creams / warm gold
+  highlights), barn-red roofline and trim, and the forest-green script in
+  the Fruitland Farms sign. Fraunces + Inter.
+*/
+
+:root {
+  /* Surfaces — pale yellow-beige metal siding */
+  --color-cream: #f3e9c8;
+  --color-cream-deep: #e8ddb2;
+  --color-paper: #faf6e4;
+
+  /* Brand greens — sign and foliage */
+  --color-leaf-50: #eef4ef;
+  --color-leaf-100: #d7e5db;
+  --color-leaf-300: #5d8a66;
+  --color-leaf-500: #2e6b45;
+  --color-leaf-700: #255238;
+  --color-leaf-900: #152a1c;
+
+  /* Barn red — roofline, sign band, trim */
+  --color-barn-400: #c43e42;
+  --color-barn-500: #b02e32;
+  --color-barn-600: #9a282e;
+  --color-barn-700: #8a2428;
+  --color-barn-900: #501416;
+
+  /* Harvest — warm gold from sunlit siding (rules, subtle accents) */
+  --color-harvest-400: #e4c66d;
+  --color-harvest-500: #d4af37;
+  --color-harvest-600: #b8922a;
+
+  /* Tokens */
+  --background: var(--color-cream);
+  --foreground: var(--color-leaf-900);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-cream: var(--color-cream);
+  --color-cream-deep: var(--color-cream-deep);
+  --color-paper: var(--color-paper);
+
+  --color-leaf-50: var(--color-leaf-50);
+  --color-leaf-100: var(--color-leaf-100);
+  --color-leaf-300: var(--color-leaf-300);
+  --color-leaf-500: var(--color-leaf-500);
+  --color-leaf-700: var(--color-leaf-700);
+  --color-leaf-900: var(--color-leaf-900);
+
+  --color-barn-400: var(--color-barn-400);
+  --color-barn-500: var(--color-barn-500);
+  --color-barn-600: var(--color-barn-600);
+  --color-barn-700: var(--color-barn-700);
+  --color-barn-900: var(--color-barn-900);
+
+  --color-harvest-400: var(--color-harvest-400);
+  --color-harvest-500: var(--color-harvest-500);
+  --color-harvest-600: var(--color-harvest-600);
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+  background: var(--background);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  font-feature-settings: "ss01", "ss02", "cv11";
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Subtle paper-grain background utility used in section dividers */
+.bg-grain {
+  background-image:
+    radial-gradient(rgba(21, 42, 28, 0.06) 1px, transparent 1px),
+    radial-gradient(rgba(176, 46, 50, 0.05) 1px, transparent 1px);
+  background-size: 18px 18px, 27px 27px;
+  background-position: 0 0, 9px 9px;
+}
+
+/* Soft fade-in on scroll */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-up {
+  animation: fadeUp 0.8s ease-out both;
+}
+
+/* Hand-drawn underline accent */
+.accent-underline {
+  background-image: linear-gradient(
+    transparent 60%,
+    rgba(212, 175, 55, 0.4) 60%,
+    rgba(212, 175, 55, 0.4) 90%,
+    transparent 90%
+  );
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  padding: 0 0.15em;
+}
