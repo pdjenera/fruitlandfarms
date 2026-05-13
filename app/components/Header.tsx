@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { navSections } from "@/lib/site";
 import { Close, Menu } from "./Icons";
 import { SiteLogo } from "./SiteLogo";
@@ -77,52 +78,56 @@ export function Header() {
         </button>
       </nav>
 
-      {mobileOpen && (
-        <div className="md:hidden fixed inset-0 z-50 bg-cream">
-          <div className="flex h-[80px] items-center justify-between px-5">
-            <a
-              href="#top"
-              onClick={() => setMobileOpen(false)}
-              className="flex items-center shrink-0 text-leaf-900"
-            >
-              <SiteLogo
-                className="h-[80px] max-w-[18rem]"
-                sizes="280px"
-              />
-            </a>
-            <button
-              type="button"
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full text-leaf-900 hover:bg-leaf-900/5"
-              onClick={() => setMobileOpen(false)}
-              aria-label="Close menu"
-            >
-              <Close className="h-6 w-6" />
-            </button>
-          </div>
-          <ul className="flex flex-col gap-2 px-6 pt-6">
-            {navSections.map((s) => (
-              <li key={s.id}>
+      {mobileOpen &&
+        createPortal(
+          <div
+            className="md:hidden fixed inset-0 z-[100] flex min-h-dvh flex-col bg-cream"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Site menu"
+          >
+            <div className="flex h-[80px] shrink-0 items-center justify-between border-b border-leaf-900/10 bg-cream px-5">
+              <a
+                href="#top"
+                onClick={() => setMobileOpen(false)}
+                className="flex items-center shrink-0 text-leaf-900"
+              >
+                <SiteLogo className="h-[80px] max-w-[18rem]" sizes="280px" />
+              </a>
+              <button
+                type="button"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full text-leaf-900 hover:bg-leaf-900/5"
+                onClick={() => setMobileOpen(false)}
+                aria-label="Close menu"
+              >
+                <Close className="h-6 w-6" />
+              </button>
+            </div>
+            <ul className="flex flex-1 flex-col gap-2 overflow-y-auto bg-cream px-6 pt-6 pb-10">
+              {navSections.map((s) => (
+                <li key={s.id}>
+                  <a
+                    href={`#${s.id}`}
+                    onClick={() => setMobileOpen(false)}
+                    className="block rounded-2xl px-4 py-4 font-display text-3xl text-leaf-900 hover:bg-leaf-100"
+                  >
+                    {s.label}
+                  </a>
+                </li>
+              ))}
+              <li className="pt-4">
                 <a
-                  href={`#${s.id}`}
+                  href="#visit"
                   onClick={() => setMobileOpen(false)}
-                  className="block rounded-2xl px-4 py-4 font-display text-3xl text-leaf-900 hover:bg-leaf-100"
+                  className="inline-flex items-center rounded-full bg-leaf-700 px-6 py-3 text-base font-medium text-cream"
                 >
-                  {s.label}
+                  Visit the Barn
                 </a>
               </li>
-            ))}
-            <li className="pt-4">
-              <a
-                href="#visit"
-                onClick={() => setMobileOpen(false)}
-                className="inline-flex items-center rounded-full bg-leaf-700 px-6 py-3 text-base font-medium text-cream"
-              >
-                Visit the Barn
-              </a>
-            </li>
-          </ul>
-        </div>
-      )}
+            </ul>
+          </div>,
+          document.body,
+        )}
     </header>
   );
 }
