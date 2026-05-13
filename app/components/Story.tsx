@@ -13,7 +13,7 @@ export function Story() {
   const yearsRunning = currentYear - site.established;
 
   return (
-    <section id="story" className="relative py-24 sm:py-32 bg-cream">
+    <section id="story" className="relative py-12 sm:py-16 bg-cream">
       <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
         <div className="grid gap-14 lg:grid-cols-12 lg:gap-16 items-center">
           {/* Imagery column */}
@@ -69,9 +69,7 @@ export function Story() {
                 For more than {Math.floor(yearsRunning / 10) * 10} years, three
                 generations of our family have woken before sunrise, walked the
                 rows, and chosen each crate of produce by hand. We grow a wide
-                range of fruits and vegetables right here on the farm, from
-                strawberries and sweet cherries in early summer to apples,
-                pumpkins, and squash in the fall.
+                range of fruits and vegetables right here on the farm.
               </p>
               <p>
                 What we don&rsquo;t grow ourselves, we source from farmers and

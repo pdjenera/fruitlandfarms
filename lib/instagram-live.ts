@@ -4,9 +4,13 @@ import { site } from "./site";
 
 /**
  * Instagram feed — loads in this order:
- * 1. Behold JSON (https://behold.so) — set BEHOLD_FEED_URL or use built-in default
+ * 1. Behold JSON (https://behold.so) — set BEHOLD_FEED_URL or use built-in default.
+ *    In the Behold dashboard, set “Number of Posts” to at least six so the grid can
+ *    fill (plan caps still apply).
  * 2. Instagram Graph API — INSTAGRAM_ACCESS_TOKEN + INSTAGRAM_BUSINESS_ACCOUNT_ID
  * 3. Static placeholders in ./instagram.ts
+ *
+ * Live sources are sorted by post timestamp (newest first), then trimmed to six.
  */
 
 const DEFAULT_BEHOLD_FEED_URL =
@@ -15,38 +19,72 @@ const DEFAULT_BEHOLD_FEED_URL =
 const GRAPH_VERSION = "v21.0";
 
 const FETCH_REVALIDATE_SECONDS = 900;
+/** Posts shown in the Instagram grid (3 columns × 2 rows on larger breakpoints). */
+export const INSTAGRAM_FEED_LIMIT = 6;
+
+/** Graph: fetch extra items so skipping media without a preview still yields six recent posts. */
+const GRAPH_MEDIA_FETCH_LIMIT = 18;
+
+function parseIgTimestamp(value: string | undefined): number {
+  if (!value?.trim()) return 0;
+  const parsed = Date.parse(value);
+  if (Number.isFinite(parsed)) return parsed;
+  const asNum = Number(value);
+  // Graph may return UNIX seconds as a numeric string
+  if (Number.isFinite(asNum) && asNum > 0) return asNum * 1000;
+  return 0;
+}
 
 // --- Behold ------------------------------------------------------------------
 
-type BeholdPost = {
-  id: string;
-  permalink?: string;
-  caption?: string;
-  prunedCaption?: string;
+type BeholdSizes = {
+  small?: { mediaUrl?: string };
+  medium?: { mediaUrl?: string };
+  large?: { mediaUrl?: string };
+  full?: { mediaUrl?: string };
+};
+
+type BeholdImageSource = {
   mediaType?: string;
   thumbnailUrl?: string;
   mediaUrl?: string;
-  sizes?: {
-    small?: { mediaUrl?: string };
-    medium?: { mediaUrl?: string };
-    large?: { mediaUrl?: string };
-    full?: { mediaUrl?: string };
-  };
+  sizes?: BeholdSizes;
+};
+
+type BeholdPost = BeholdImageSource & {
+  id: string;
+  timestamp?: string;
+  permalink?: string;
+  caption?: string;
+  prunedCaption?: string;
+  children?: BeholdImageSource[];
 };
 
 type BeholdResponse = {
   posts?: BeholdPost[];
 };
 
-function pickBeholdImageUrl(post: BeholdPost): string | null {
+function pickBeholdImageUrlFromSource(src: BeholdImageSource): string | null {
   const fromSizes =
-    post.sizes?.medium?.mediaUrl ??
-    post.sizes?.large?.mediaUrl ??
-    post.sizes?.full?.mediaUrl ??
-    post.sizes?.small?.mediaUrl;
+    src.sizes?.medium?.mediaUrl ??
+    src.sizes?.large?.mediaUrl ??
+    src.sizes?.full?.mediaUrl ??
+    src.sizes?.small?.mediaUrl;
   if (fromSizes) return fromSizes;
-  if (post.thumbnailUrl) return post.thumbnailUrl;
-  if (post.mediaType === "IMAGE" && post.mediaUrl) return post.mediaUrl;
+  if (src.thumbnailUrl) return src.thumbnailUrl;
+  if (src.mediaType === "IMAGE" && src.mediaUrl) return src.mediaUrl;
+  return null;
+}
+
+function pickBeholdImageUrl(post: BeholdPost): string | null {
+  const direct = pickBeholdImageUrlFromSource(post);
+  if (direct) return direct;
+  if (post.mediaType === "CAROUSEL_ALBUM" && post.children?.length) {
+    for (const child of post.children) {
+      const url = pickBeholdImageUrlFromSource(child);
+      if (url) return url;
+    }
+  }
   return null;
 }
 
@@ -73,9 +111,12 @@ async function fetchFromBehold(
     }
 
     const body = (await res.json()) as BeholdResponse;
+    const sorted = [...(body.posts ?? [])].sort(
+      (a, b) => parseIgTimestamp(b.timestamp) - parseIgTimestamp(a.timestamp),
+    );
     const rows: InstagramPost[] = [];
 
-    for (const post of body.posts ?? []) {
+    for (const post of sorted) {
       const image = pickBeholdImageUrl(post);
       if (!image) continue;
 
@@ -88,7 +129,7 @@ async function fetchFromBehold(
         image,
         href: post.permalink ?? site.social.instagram,
       });
-      if (rows.length >= 6) break;
+      if (rows.length >= INSTAGRAM_FEED_LIMIT) break;
     }
 
     return rows.length > 0 ? rows : null;
@@ -105,6 +146,8 @@ async function fetchFromBehold(
 type IgMediaNode = {
   id: string;
   caption?: string;
+  /** ISO 8601 from Graph API — used to keep the grid in newest-first order. */
+  timestamp?: string;
   media_type: "IMAGE" | "VIDEO" | "CAROUSEL_ALBUM";
   media_url?: string;
   permalink: string;
@@ -145,6 +188,7 @@ async function fetchFromGraphApi(): Promise<InstagramPost[] | null> {
   const fields = [
     "id",
     "caption",
+    "timestamp",
     "media_type",
     "media_url",
     "permalink",
@@ -156,7 +200,7 @@ async function fetchFromGraphApi(): Promise<InstagramPost[] | null> {
     `https://graph.facebook.com/${GRAPH_VERSION}/${encodeURIComponent(userId)}/media`,
   );
   url.searchParams.set("fields", fields);
-  url.searchParams.set("limit", "12");
+  url.searchParams.set("limit", String(GRAPH_MEDIA_FETCH_LIMIT));
   url.searchParams.set("access_token", token);
 
   try {
@@ -176,8 +220,11 @@ async function fetchFromGraphApi(): Promise<InstagramPost[] | null> {
       return null;
     }
 
+    const sorted = [...(body.data ?? [])].sort(
+      (a, b) => parseIgTimestamp(b.timestamp) - parseIgTimestamp(a.timestamp),
+    );
     const rows: InstagramPost[] = [];
-    for (const node of body.data ?? []) {
+    for (const node of sorted) {
       const image = pickGraphPreviewUrl(node);
       if (!image) continue;
       rows.push({
@@ -188,7 +235,7 @@ async function fetchFromGraphApi(): Promise<InstagramPost[] | null> {
         image,
         href: node.permalink || site.social.instagram,
       });
-      if (rows.length >= 6) break;
+      if (rows.length >= INSTAGRAM_FEED_LIMIT) break;
     }
 
     return rows.length > 0 ? rows : null;
@@ -221,5 +268,8 @@ export async function getInstagramPosts(): Promise<{
     return { posts: fromGraph, source: "graph" };
   }
 
-  return { posts: fallbackPosts, source: "fallback" };
+  return {
+    posts: fallbackPosts.slice(0, INSTAGRAM_FEED_LIMIT),
+    source: "fallback",
+  };
 }

@@ -39,7 +39,7 @@ export function InSeasonClient({ currentMonth }: InSeasonClientProps) {
   return (
     <section
       id="in-season"
-      className="relative py-24 sm:py-32 bg-leaf-900 text-cream overflow-hidden"
+      className="relative py-12 sm:py-16 bg-leaf-900 text-cream overflow-hidden"
     >
       <div
         aria-hidden

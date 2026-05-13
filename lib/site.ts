@@ -10,13 +10,13 @@ export const site = {
   generations: 3,
   region: "Stoney Creek, Ontario",
   address: {
-    street: "836 Hamilton Regional Road 8",
+    street: "846 Highway 8",
     city: "Stoney Creek",
     province: "Ontario",
     postalCode: "L8E 5J3",
     country: "Canada",
   },
-  // Coordinates near 836 Highway 8, Stoney Creek (Fruitland area).
+  // Coordinates near 846 Highway 8, Stoney Creek (Fruitland area).
   // Update if you have an exact pin from Google Maps.
   coordinates: {
     lat: 43.226,
@@ -25,7 +25,7 @@ export const site = {
   social: {
     instagram: "https://www.instagram.com/fruitlandfarms/",
     instagramHandle: "@fruitlandfarms",
-    facebook: "https://www.facebook.com/fruitlandfarms",
+    facebook: "https://www.facebook.com/fruitlandfarms64/",
   },
   contact: {
     // Replace with the real phone/email when ready. Leave empty to hide.
@@ -33,6 +33,12 @@ export const site = {
     email: "" as string,
   },
 } as const;
+
+/** Header logo (cropped / variant for nav). */
+export const siteLogoSrc = "/images/fruitland-logo-lockup.png" as const;
+
+/** Footer logo (e.g. light wordmark on black — reads on dark green bar). */
+export const siteLogoFooterSrc = "/images/fruitland-logo-footer.png" as const;
 
 export const navSections = [
   { id: "story", label: "Our Story" },
