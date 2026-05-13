@@ -1,22 +1,26 @@
-import { navSections, site } from "@/lib/site";
-import { Facebook, Instagram, LeafMark } from "./Icons";
+import { navSections, site, siteLogoFooterSrc } from "@/lib/site";
+import { Facebook, Instagram } from "./Icons";
+import { PaymentMethodsIcons } from "./PaymentMethods";
+import { SiteLogo } from "./SiteLogo";
 
 export function Footer() {
   const year = new Date().getFullYear();
 
   return (
     <footer className="bg-leaf-900 text-cream/85">
-      <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12 py-16 sm:py-20">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12 py-8 sm:py-10">
         <div className="grid gap-10 lg:grid-cols-12">
           {/* Brand */}
           <div className="lg:col-span-5">
-            <a href="#top" className="inline-flex items-center gap-3">
-              <span className="grid h-10 w-10 place-items-center rounded-full bg-cream/10 text-cream">
-                <LeafMark className="h-5 w-5" />
-              </span>
-              <span className="font-display text-2xl text-cream tracking-tight">
-                {site.name}
-              </span>
+            <a
+              href="#top"
+              className="inline-flex items-center shrink-0 hover:opacity-90 transition-opacity"
+            >
+              <SiteLogo
+                src={siteLogoFooterSrc}
+                className="h-[120px] max-w-[22rem] sm:h-[128px] sm:max-w-[32rem]"
+                sizes="(min-width: 640px) 520px, 400px"
+              />
             </a>
             <p className="mt-5 max-w-md text-cream/75 leading-relaxed">
               A family-run fruit and vegetable market in {site.region}.
@@ -89,7 +93,18 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-14 pt-8 border-t border-cream/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-sm text-cream/55">
+        <div className="mt-14 max-w-2xl">
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-cream/60">
+            Payment
+          </p>
+          <p className="mt-2 text-sm text-cream/75 leading-relaxed">
+            We accept Visa, Mastercard, American Express, and Interac at the
+            barn.
+          </p>
+          <PaymentMethodsIcons />
+        </div>
+
+        <div className="mt-8 pt-8 border-t border-cream/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-sm text-cream/55">
           <p>
             &copy; {year} {site.name}. All rights reserved.
           </p>

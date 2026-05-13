@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { navSections, site } from "@/lib/site";
-import { Close, LeafMark, Menu } from "./Icons";
+import { navSections } from "@/lib/site";
+import { Close, Menu } from "./Icons";
+import { SiteLogo } from "./SiteLogo";
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -28,26 +29,25 @@ export function Header() {
   return (
     <header
       className={[
-        "fixed inset-x-0 top-0 z-50 transition-all duration-300",
+        "fixed inset-x-0 top-0 z-50 border-b border-leaf-900/8 bg-cream backdrop-blur-md transition-[box-shadow,background-color] duration-300",
         scrolled
-          ? "bg-cream/85 backdrop-blur-md border-b border-leaf-900/5 shadow-[0_1px_0_rgba(35,55,25,0.04)]"
-          : "bg-transparent",
+          ? "shadow-[0_1px_0_rgba(35,55,25,0.06)]"
+          : "shadow-none",
       ].join(" ")}
     >
       <nav
-        className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:px-8 lg:px-12"
+        className="mx-auto flex h-[80px] max-w-7xl items-center justify-between px-5 sm:px-8 lg:px-12"
         aria-label="Primary"
       >
         <a
           href="#top"
-          className="flex items-center gap-2.5 text-leaf-900 hover:text-leaf-700 transition-colors"
+          className="flex items-center shrink-0 text-leaf-900 hover:opacity-90 transition-opacity"
         >
-          <span className="grid h-9 w-9 place-items-center rounded-full bg-leaf-700 text-cream">
-            <LeafMark className="h-5 w-5" />
-          </span>
-          <span className="font-display text-lg leading-none tracking-tight">
-            {site.name}
-          </span>
+          <SiteLogo
+            className="h-[80px] max-w-[18rem] sm:max-w-[22rem]"
+            priority
+            sizes="(min-width: 640px) 360px, 280px"
+          />
         </a>
 
         <ul className="hidden items-center gap-8 md:flex">
@@ -79,18 +79,16 @@ export function Header() {
 
       {mobileOpen && (
         <div className="md:hidden fixed inset-0 z-50 bg-cream">
-          <div className="flex items-center justify-between px-5 h-16">
+          <div className="flex h-[80px] items-center justify-between px-5">
             <a
               href="#top"
               onClick={() => setMobileOpen(false)}
-              className="flex items-center gap-2.5 text-leaf-900"
+              className="flex items-center shrink-0 text-leaf-900"
             >
-              <span className="grid h-9 w-9 place-items-center rounded-full bg-leaf-700 text-cream">
-                <LeafMark className="h-5 w-5" />
-              </span>
-              <span className="font-display text-lg leading-none tracking-tight">
-                {site.name}
-              </span>
+              <SiteLogo
+                className="h-[80px] max-w-[18rem]"
+                sizes="280px"
+              />
             </a>
             <button
               type="button"

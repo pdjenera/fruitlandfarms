@@ -10,7 +10,7 @@ export function Location() {
   const directionsUrl = googleMapsDirectionsUrl();
 
   return (
-    <section id="visit" className="relative py-24 sm:py-32 bg-cream">
+    <section id="visit" className="relative py-12 sm:py-16 bg-cream">
       <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-16 items-center">
           <div className="lg:col-span-5">

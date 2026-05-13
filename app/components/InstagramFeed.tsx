@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { getInstagramPosts } from "@/lib/instagram-live";
+import { getInstagramPosts, INSTAGRAM_FEED_LIMIT } from "@/lib/instagram-live";
 import { site } from "@/lib/site";
 import { ArrowUpRight, Instagram as IgIcon } from "./Icons";
 
@@ -9,7 +9,7 @@ export async function InstagramFeed() {
   return (
     <section
       id="instagram"
-      className="relative py-24 sm:py-32 bg-cream-deep/60 bg-grain"
+      className="relative py-12 sm:py-16 bg-cream-deep/60 bg-grain"
     >
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
@@ -43,18 +43,9 @@ export async function InstagramFeed() {
           </a>
         </div>
 
-        <ul className="mt-12 grid gap-3 sm:gap-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
-          {posts.map((post, index) => (
-            <li
-              key={post.id}
-              className={
-                index === 0
-                  ? "lg:col-span-2 lg:row-span-2"
-                  : index === 3
-                    ? "lg:col-span-2"
-                    : ""
-              }
-            >
+        <ul className="mt-12 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4">
+          {posts.slice(0, INSTAGRAM_FEED_LIMIT).map((post) => (
+            <li key={post.id}>
               <a
                 href={post.href}
                 target="_blank"
@@ -66,7 +57,7 @@ export async function InstagramFeed() {
                   src={post.image}
                   alt={post.caption}
                   fill
-                  sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
+                  sizes="(min-width: 640px) 33vw, 50vw"
                   className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
                   unoptimized={
                     post.image.includes("cdninstagram.com") ||

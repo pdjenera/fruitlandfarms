@@ -13,15 +13,15 @@ export function Hero() {
     >
       <Image
         src="/images/hero-storefront.png"
-        alt={`The ${site.name} shop — yellow corrugated barn front, red trim, and Fruitland Farms sign with plants out front`}
+        alt={`${site.name} storefront: yellow barn with red trim, oval Fruitland Farms sign, plant racks, and strawberry cutout out front`}
         priority
         fill
         sizes="100vw"
-        className="object-cover object-center -z-20"
+        className="object-cover object-[50%_30%] sm:object-[50%_28%] -z-20"
       />
 
       <div className="relative w-full">
-        <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12 pb-16 sm:pb-24 lg:pb-32">
+        <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12 pb-8 sm:pb-12 lg:pb-16">
           <div
             className={[
               "max-w-3xl rounded-[2rem] px-6 py-8 sm:px-9 sm:py-10",

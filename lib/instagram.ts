@@ -55,4 +55,18 @@ export const posts: InstagramPost[] = [
       "https://images.unsplash.com/photo-1582281298055-e25b84a30b0b?auto=format&fit=crop&w=900&q=70",
     href: "https://www.instagram.com/fruitlandfarms/",
   },
+  {
+    id: "7",
+    caption: "Fresh-picked cherries — Niagara summer on the stem.",
+    image:
+      "https://images.unsplash.com/photo-1528821128474-27f963b062bf?auto=format&fit=crop&w=900&q=70",
+    href: "https://www.instagram.com/fruitlandfarms/",
+  },
+  {
+    id: "8",
+    caption: "Field tomatoes — sun-ripened and ready for your kitchen.",
+    image:
+      "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=900&q=70",
+    href: "https://www.instagram.com/fruitlandfarms/",
+  },
 ];
