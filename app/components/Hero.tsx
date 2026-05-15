@@ -9,7 +9,7 @@ export function Hero() {
   return (
     <section
       id="top"
-      className="relative isolate min-h-[100svh] flex items-end overflow-hidden"
+      className="relative isolate min-h-[100svh] flex items-start overflow-hidden"
     >
       <Image
         src="/images/hero-storefront.png"
@@ -20,8 +20,8 @@ export function Hero() {
         className="object-cover object-[50%_30%] sm:object-[50%_28%] -z-20"
       />
 
-      <div className="relative w-full">
-        <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12 pb-8 sm:pb-12 lg:pb-16">
+      <div className="relative min-h-[100svh] w-full">
+        <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12 pt-32 sm:pt-36 lg:pt-40 pb-8 sm:pb-12 lg:pb-16">
           <div
             className={[
               "max-w-3xl rounded-[2rem] px-6 py-8 sm:px-9 sm:py-10",
