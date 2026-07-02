@@ -23,7 +23,7 @@ export function Footer() {
               />
             </a>
             <p className="mt-5 max-w-md text-cream/75 leading-relaxed">
-              A family-run fruit and vegetable market in {site.region}.
+              A family-run farm market and fruit stand in {site.region}.
               Three generations of growing, picking, and sharing the best of
               Ontario.
             </p>

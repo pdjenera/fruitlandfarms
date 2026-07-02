@@ -12,12 +12,12 @@ export function Hero() {
       className="relative isolate min-h-[100svh] flex items-start overflow-hidden"
     >
       <Image
-        src="/images/hero-storefront.png"
+        src="/images/hero-barn-portrait.png"
         alt={`${site.name} storefront: yellow barn with red trim, oval Fruitland Farms sign, plant racks, and strawberry cutout out front`}
         priority
         fill
         sizes="100vw"
-        className="object-cover object-[50%_30%] sm:object-[50%_28%] -z-20"
+        className="object-cover object-[50%_42%] sm:object-[50%_38%] lg:object-[50%_40%] -z-20"
       />
 
       <div className="relative min-h-[100svh] w-full">
@@ -44,9 +44,10 @@ export function Hero() {
             </h1>
 
             <p className="fade-up mt-6 max-w-xl text-lg sm:text-xl leading-relaxed text-black">
-              Our passion is bringing you the best of Ontario&rsquo;s produce:
-              fresh, vibrant, and brimming with flavour. Discover the difference
-              of fruit picked daily and delivered straight to you.
+              Our farm market and fruit stand bring you the best of
+              Ontario&rsquo;s produce: fresh, vibrant, and brimming with
+              flavour. Discover the difference of fruit picked daily and
+              delivered straight to you.
             </p>
 
             <div className="fade-up mt-9 flex flex-wrap items-center gap-4">

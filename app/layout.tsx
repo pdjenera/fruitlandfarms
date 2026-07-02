@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Fraunces, Inter } from "next/font/google";
+import { BASE_URL, localBusinessJsonLd, site } from "@/lib/site";
 import "./globals.css";
 
 const inter = Inter({
@@ -15,18 +16,49 @@ const fraunces = Fraunces({
   axes: ["SOFT", "WONK", "opsz"],
 });
 
+const title = `${site.name} | Farm Market & Fruit Stand in ${site.region}`;
+const description =
+  "Fruitland Farms is a family-run farm market and fruit stand in Stoney Creek, Ontario. Visit our farmers market for fresh, locally grown fruits and vegetables — three generations strong since 1964.";
+
 export const metadata: Metadata = {
-  title: "Fruitland Farms — Serving Nature's Best Since 1964",
-  description:
-    "Three generations of family farming in Stoney Creek, Ontario. Fresh fruits and vegetables grown on-farm, alongside the best produce from our neighbours.",
-  metadataBase: new URL("https://www.fruitlandfarms.ca"),
+  title: {
+    default: title,
+    template: `%s | ${site.name}`,
+  },
+  description,
+  keywords: [...site.keywords],
+  metadataBase: new URL(BASE_URL),
+  alternates: {
+    canonical: "/",
+  },
+  authors: [{ name: site.name, url: BASE_URL }],
+  category: "shopping",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
   openGraph: {
-    title: "Fruitland Farms — Serving Nature's Best Since 1964",
-    description:
-      "Three generations of family farming in Stoney Creek, Ontario. Fresh fruits and vegetables grown on-farm, alongside the best produce from our neighbours.",
+    title,
+    description,
+    url: BASE_URL,
+    siteName: site.name,
     type: "website",
     locale: "en_CA",
   },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+  },
+  // Add `verification: { google: "..." }` here once you claim the site in
+  // Google Search Console (Settings → Ownership verification → HTML tag).
 };
 
 export default function RootLayout({
@@ -40,6 +72,16 @@ export default function RootLayout({
       className={`${inter.variable} ${fraunces.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-cream text-leaf-900">
+        {/* Local business structured data — helps Google show a map card,
+            hours, and rich local-search results for "farm market",
+            "fruit stand", and "farmers market" queries near Stoney Creek. */}
+        <script
+          type="application/ld+json"
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(localBusinessJsonLd()),
+          }}
+        />
         {children}
       </body>
     </html>
