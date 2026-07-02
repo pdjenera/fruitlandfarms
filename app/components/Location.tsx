@@ -25,9 +25,10 @@ export function Location() {
               <span className="italic">barn.</span>
             </h2>
             <p className="mt-6 text-lg leading-relaxed text-leaf-900/80 max-w-prose">
-              Find us along Highway 8 in Stoney Creek, between Hamilton and
-              Niagara. We&rsquo;d love to welcome you in for a basket of
-              whatever&rsquo;s freshest that day.
+              Find our farm market and farmers market stand along Highway 8
+              in Stoney Creek, between Hamilton and Niagara. We&rsquo;d love
+              to welcome you in for a basket of whatever&rsquo;s freshest
+              that day.
             </p>
 
             <div className="mt-10 rounded-3xl bg-cream-deep/60 ring-1 ring-leaf-900/10 p-6 sm:p-8">

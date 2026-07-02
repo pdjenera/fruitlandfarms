@@ -61,9 +61,9 @@ export function Story() {
               <p>
                 Fruitland Farms was founded in {site.established}, when our
                 family first put down roots in Stoney Creek and began working
-                the rich Niagara soil. What started as a roadside stand selling
-                fruit picked that morning has grown into a beloved local market
-                — but the heart of it has never changed.
+                the rich Niagara soil. What started as a roadside fruit stand
+                selling produce picked that morning has grown into a beloved
+                farm market — but the heart of it has never changed.
               </p>
               <p>
                 For more than {Math.floor(yearsRunning / 10) * 10} years, three
